@@ -53,25 +53,27 @@ export type PaymentMethodValue = (typeof PAYMENT_METHODS)[number]['value']
  */
 export const PAYMENT_DETAILS = {
   easypaisa: {
-    accountTitle: 'Beautique Store',
-    accountNumber: '0313-2306429',
+    accountTitle: 'Muhammad Arshad',
+    accountNumber: '0333 2306429',
     instructions: [
       'Open your Easypaisa app',
       'Select "Send Money"',
-      'Enter the account number: 0313-2306429',
+      'Enter the account number: 0333 2306429',
       'Enter the exact order amount',
       'Take a screenshot of the confirmation',
       'Send the screenshot via WhatsApp to 0313-2306429',
     ],
   },
   'meezan-bank': {
-    accountTitle: 'Beautique Store',
-    accountNumber: '0123-4567890123',
+    accountTitle: 'MUHAMMAD ARSHAD',
+    accountNumber: '01820100017061',
+    iban: 'PK68MEZN0001820100017061',
     bankName: 'Meezan Bank Limited',
-    branchCode: '0123',
     instructions: [
-      'Transfer the exact order amount',
-      'Use the account details provided',
+      'Transfer the exact order amount to the account details above',
+      'Account Holder: MUHAMMAD ARSHAD',
+      'Account Number: 01820100017061',
+      'IBAN: PK68MEZN0001820100017061',
       'Take a screenshot of the transfer confirmation',
       'Send the screenshot via WhatsApp to 0313-2306429',
     ],

@@ -20,7 +20,6 @@ class PaymentMethod(str, enum.Enum):
 
     Easypaisa = "Easypaisa"
     Meezan_Bank = "Meezan Bank"
-    International_Bank = "International Bank"
 
 
 class PaymentStatus(str, enum.Enum):

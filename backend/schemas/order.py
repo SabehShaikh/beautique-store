@@ -16,7 +16,6 @@ class PaymentMethod(str, Enum):
 
     EASYPAISA = "Easypaisa"
     MEEZAN_BANK = "Meezan Bank"
-    INTERNATIONAL_BANK = "International Bank"
 
 
 class PaymentStatus(str, Enum):

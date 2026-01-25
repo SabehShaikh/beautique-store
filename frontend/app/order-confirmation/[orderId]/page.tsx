@@ -157,6 +157,15 @@ export default function OrderConfirmationPage({
                 </div>
               </>
             )}
+            {'iban' in paymentInfo && (
+              <>
+                <Separator />
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">IBAN</span>
+                  <span className="font-mono font-medium text-xs sm:text-sm">{paymentInfo.iban}</span>
+                </div>
+              </>
+            )}
             <Separator />
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Amount to Pay</span>

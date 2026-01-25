@@ -89,16 +89,11 @@ export const productSchema = z.object({
     .min(10, 'Description must be at least 10 characters')
     .max(2000, 'Description cannot exceed 2000 characters'),
   regular_price: z
-    .number({
-      required_error: 'Regular price is required',
-      invalid_type_error: 'Regular price must be a valid number',
-    })
+    .number({ message: 'Regular price must be a valid number' })
     .min(0, 'Regular price cannot be negative')
     .max(1000000, 'Regular price cannot exceed 1,000,000'),
   sale_price: z
-    .number({
-      invalid_type_error: 'Sale price must be a valid number',
-    })
+    .number({ message: 'Sale price must be a valid number' })
     .min(0, 'Sale price cannot be negative')
     .max(1000000, 'Sale price cannot exceed 1,000,000')
     .nullable()
@@ -112,8 +107,8 @@ export const productSchema = z.object({
   colors: z
     .array(z.string().min(1))
     .min(1, 'Enter the product color'),
-  is_bestseller: z.boolean().default(false),
-  is_active: z.boolean().default(true),
+  is_bestseller: z.boolean(),
+  is_active: z.boolean(),
 }).refine((data) => {
   // Validate that sale_price is less than regular_price if provided
   if (data.sale_price != null && data.sale_price >= data.regular_price) {

@@ -43,11 +43,17 @@ export default function CheckoutPage() {
     return null // Will redirect
   }
 
+  // Map frontend payment method values to backend enum values
+  const paymentMethodMap: Record<string, string> = {
+    'easypaisa': 'Easypaisa',
+    'meezan-bank': 'Meezan Bank',
+  }
+
   const handleSubmit = async (data: CheckoutFormValues) => {
     setIsSubmitting(true)
 
     try {
-      // Prepare order data
+      // Prepare order data with mapped payment method
       const orderData = {
         customer_name: data.customer_name,
         phone: data.phone,
@@ -57,7 +63,7 @@ export default function CheckoutPage() {
         city: data.city,
         country: data.country || undefined,
         notes: data.notes || undefined,
-        payment_method: data.payment_method,
+        payment_method: paymentMethodMap[data.payment_method] || data.payment_method,
         items: items.map((item) => ({
           product_id: item.product_id,
           name: item.name,
@@ -68,8 +74,8 @@ export default function CheckoutPage() {
         })),
       }
 
-      // Create order
-      const response = await ordersApi.createOrder(orderData)
+      // Create order - cast to any since backend expects different enum values
+      const response = await ordersApi.createOrder(orderData as any)
 
       // Store order data temporarily for confirmation page
       const orderConfirmationData = {
