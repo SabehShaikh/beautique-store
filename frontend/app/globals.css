@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@theme {
+  /* Beautique brand colors */
+  --color-beautique-purple: #4A1D66;
+  --color-beautique-purple-dark: #2D1B3D;
+  --color-beautique-gold: #D4AF37;
+  --color-beautique-rose: #E8B4B8;
+  --color-beautique-cream: #FAF3E0;
+
+  /* shadcn/ui color scheme */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Font family */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+:root {
+  /* Beautique Brand Theme - Purple & Gold */
+  --background: 0 0% 100%;
+  --foreground: 273 39% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 273 39% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 273 39% 17%;
+  --primary: 275 57% 26%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 355 41% 81%;
+  --secondary-foreground: 273 39% 17%;
+  --muted: 45 67% 96%;
+  --muted-foreground: 273 20% 40%;
+  --accent: 43 64% 52%;
+  --accent-foreground: 273 39% 17%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 273 20% 88%;
+  --input: 273 20% 88%;
+  --ring: 43 64% 52%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 273 39% 10%;
+  --foreground: 45 67% 93%;
+  --card: 273 39% 12%;
+  --card-foreground: 45 67% 93%;
+  --popover: 273 39% 12%;
+  --popover-foreground: 45 67% 93%;
+  --primary: 43 64% 52%;
+  --primary-foreground: 273 39% 10%;
+  --secondary: 355 41% 70%;
+  --secondary-foreground: 45 67% 93%;
+  --muted: 273 30% 20%;
+  --muted-foreground: 273 20% 60%;
+  --accent: 275 57% 35%;
+  --accent-foreground: 45 67% 93%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 45 67% 93%;
+  --border: 273 30% 25%;
+  --input: 273 30% 25%;
+  --ring: 43 64% 52%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Custom scrollbar with brand colors */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Link styling with hover effects */
+a:not(.no-hover-effect) {
+  transition: color 0.2s ease;
+}
+
+/* Interactive hover effects for links in content areas */
+.prose a,
+.content-links a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.prose a:hover,
+.content-links a:hover {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px -10px rgba(74, 29, 102, 0.2);
+}
+
+/* WhatsApp floating button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.whatsapp-float svg {
+  width: 32px;
+  height: 32px;
+}

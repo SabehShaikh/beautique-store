@@ -1,0 +1,28 @@
+# Beautique Store Backend API Dependencies
+# Python 3.11+ (updated for Python 3.13 compatibility)
+
+# Web Framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# Database
+sqlalchemy[asyncio]>=2.0.25
+asyncpg>=0.29.0
+alembic>=1.13.1
+
+# Validation
+pydantic>=2.5.3
+pydantic-settings>=2.1.0
+
+# Authentication
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# Image Upload
+cloudinary>=1.38.0
+
+# File Upload Support
+python-multipart>=0.0.6
+
+# Environment Variables
+python-dotenv>=1.0.0
