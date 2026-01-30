@@ -55,14 +55,14 @@ export default function AdminDashboardPage() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      received: 'bg-blue-100 text-blue-800',
-      processing: 'bg-yellow-100 text-yellow-800',
-      ready: 'bg-purple-100 text-purple-800',
-      delivered: 'bg-green-100 text-green-800',
-      cancelled: 'bg-red-100 text-red-800',
-      pending: 'bg-gray-100 text-gray-800',
-      paid: 'bg-blue-100 text-blue-800',
-      verified: 'bg-green-100 text-green-800',
+      'Received': 'bg-blue-100 text-blue-800',
+      'Processing': 'bg-yellow-100 text-yellow-800',
+      'Ready': 'bg-purple-100 text-purple-800',
+      'Delivered': 'bg-green-100 text-green-800',
+      'Cancelled': 'bg-red-100 text-red-800',
+      'Pending': 'bg-gray-100 text-gray-800',
+      'Paid': 'bg-blue-100 text-blue-800',
+      'Verified': 'bg-green-100 text-green-800',
     }
     return colors[status] || 'bg-gray-100 text-gray-800'
   }

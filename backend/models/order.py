@@ -102,12 +102,14 @@ class Order(Base, UUIDMixin, TimestampMixin):
     total_amount: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
 
     # Payment
+    # Use values_callable to ensure SQLAlchemy uses enum VALUES (e.g., "Not Started")
+    # instead of enum NAMES (e.g., "Not_Started") when interacting with PostgreSQL
     payment_method: Mapped[PaymentMethod] = mapped_column(
-        Enum(PaymentMethod, name="payment_method"),
+        Enum(PaymentMethod, name="payment_method", values_callable=lambda x: [e.value for e in x]),
         nullable=False,
     )
     payment_status: Mapped[PaymentStatus] = mapped_column(
-        Enum(PaymentStatus, name="payment_status"),
+        Enum(PaymentStatus, name="payment_status", values_callable=lambda x: [e.value for e in x]),
         default=PaymentStatus.Pending,
         nullable=False,
         index=True,
@@ -115,7 +117,7 @@ class Order(Base, UUIDMixin, TimestampMixin):
 
     # Order status
     order_status: Mapped[OrderStatus] = mapped_column(
-        Enum(OrderStatus, name="order_status"),
+        Enum(OrderStatus, name="order_status", values_callable=lambda x: [e.value for e in x]),
         default=OrderStatus.Received,
         nullable=False,
         index=True,
@@ -123,7 +125,7 @@ class Order(Base, UUIDMixin, TimestampMixin):
 
     # Delivery status
     delivery_status: Mapped[DeliveryStatus] = mapped_column(
-        Enum(DeliveryStatus, name="delivery_status"),
+        Enum(DeliveryStatus, name="delivery_status", values_callable=lambda x: [e.value for e in x]),
         default=DeliveryStatus.Not_Started,
         nullable=False,
     )

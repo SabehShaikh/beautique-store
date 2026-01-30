@@ -51,18 +51,46 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         }
 
         // Fetch color variants - search for products with similar base name
-        // Extract base name (e.g., "Liana Maxi" from "Liana Maxi - White")
-        const baseName = data.name.split(' - ')[0].trim()
+        // Extract base name by splitting on various dash types:
+        // - Regular hyphen: " - "
+        // - Em-dash: " — " (U+2014)
+        // - En-dash: " – " (U+2013)
+        // - Mojibake: " â€" " (corrupted em-dash from UTF-8 misinterpretation)
+        const extractBaseName = (name: string): string => {
+          // Split on various dash patterns (with surrounding spaces)
+          const dashPattern = /\s+[-–—]\s+|\s+â€"\s+/
+          const parts = name.split(dashPattern)
+          return parts[0].trim()
+        }
+
+        const baseName = extractBaseName(data.name)
+
         if (baseName.length >= 3) {
           try {
-            const response = await productsApi.getProducts({ search: baseName, limit: 10 })
-            // Filter out current product and get color variants
-            const variants = (response?.items || []).filter(
-              (p) => p.id !== data.id && p.is_active
-            )
+            // Search for products with similar base name
+            const response = await productsApi.getProducts({ search: baseName, limit: 30 })
+
+            // Filter to get true color variants:
+            // 1. Not the current product
+            // 2. Is active
+            // 3. Name starts with the same base name (to ensure they're true variants)
+            // 4. Same category
+            const variants = (response?.items || []).filter((p) => {
+              if (p.id === data.id || !p.is_active) return false
+
+              // Extract base name using the same function
+              const pBaseName = extractBaseName(p.name)
+              const baseNameMatch = pBaseName.toLowerCase() === baseName.toLowerCase()
+
+              // Check if product is in the same category (compare as strings, case-insensitive)
+              const categoryMatch = String(p.category).toLowerCase() === String(data.category).toLowerCase()
+
+              return baseNameMatch && categoryMatch
+            })
+
             setColorVariants(variants.slice(0, 6)) // Show max 6 variants
-          } catch {
-            // Ignore errors fetching variants
+          } catch (err) {
+            console.error('Error fetching color variants:', err)
           }
         }
       } catch (err) {

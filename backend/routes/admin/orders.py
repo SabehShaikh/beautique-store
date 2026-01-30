@@ -89,11 +89,11 @@ async def list_orders(
     orders = result.scalars().all()
 
     return OrderListResponse(
-        orders=[OrderListItem.model_validate(o) for o in orders],
+        items=[OrderListItem.model_validate(o) for o in orders],
         total=total,
         page=page,
         limit=limit,
-        pages=pages,
+        total_pages=pages,
     )
 
 

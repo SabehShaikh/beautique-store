@@ -52,7 +52,7 @@ export const checkoutSchema = z.object({
     .max(500, 'Notes cannot exceed 500 characters')
     .optional()
     .or(z.literal('')),
-  payment_method: z.enum(['easypaisa', 'meezan-bank'], {
+  payment_method: z.enum(['Easypaisa', 'Meezan Bank'], {
     message: 'Please select a payment method',
   }),
 })
@@ -192,13 +192,13 @@ export type PasswordChangeFormValues = z.infer<typeof passwordChangeSchema>
 
 export const orderStatusUpdateSchema = z.object({
   payment_status: z
-    .enum(['pending', 'paid', 'verified'])
+    .enum(['Pending', 'Paid', 'Verified'])
     .optional(),
   order_status: z
-    .enum(['received', 'processing', 'ready', 'delivered', 'cancelled'])
+    .enum(['Received', 'Processing', 'Ready', 'Delivered', 'Cancelled'])
     .optional(),
   delivery_status: z
-    .enum(['not-started', 'in-progress', 'out-for-delivery', 'delivered'])
+    .enum(['Not Started', 'In Progress', 'Out for Delivery', 'Delivered'])
     .optional(),
   estimated_delivery: z
     .string()

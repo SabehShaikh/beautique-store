@@ -39,11 +39,11 @@ export const COLORS = [
 ] as const
 
 /**
- * Payment Methods (Only Easypaisa and Meezan Bank)
+ * Payment Methods (Only Easypaisa and Meezan Bank) - values must match backend enum exactly
  */
 export const PAYMENT_METHODS = [
-  { value: 'easypaisa', label: 'Easypaisa' },
-  { value: 'meezan-bank', label: 'Meezan Bank Transfer' },
+  { value: 'Easypaisa', label: 'Easypaisa' },
+  { value: 'Meezan Bank', label: 'Meezan Bank Transfer' },
 ] as const
 
 export type PaymentMethodValue = (typeof PAYMENT_METHODS)[number]['value']
@@ -52,7 +52,7 @@ export type PaymentMethodValue = (typeof PAYMENT_METHODS)[number]['value']
  * Payment Details for instructions
  */
 export const PAYMENT_DETAILS = {
-  easypaisa: {
+  'Easypaisa': {
     accountTitle: 'Muhammad Arshad',
     accountNumber: '0333 2306429',
     instructions: [
@@ -64,7 +64,7 @@ export const PAYMENT_DETAILS = {
       'Send the screenshot via WhatsApp to 0313-2306429',
     ],
   },
-  'meezan-bank': {
+  'Meezan Bank': {
     accountTitle: 'MUHAMMAD ARSHAD',
     accountNumber: '01820100017061',
     iban: 'PK68MEZN0001820100017061',
@@ -81,37 +81,37 @@ export const PAYMENT_DETAILS = {
 } as const
 
 /**
- * Order Statuses
+ * Order Statuses - values must match backend enum exactly
  */
 export const ORDER_STATUSES = [
-  { value: 'received', label: 'Received' },
-  { value: 'processing', label: 'Processing' },
-  { value: 'ready', label: 'Ready' },
-  { value: 'delivered', label: 'Delivered' },
-  { value: 'cancelled', label: 'Cancelled' },
+  { value: 'Received', label: 'Received' },
+  { value: 'Processing', label: 'Processing' },
+  { value: 'Ready', label: 'Ready' },
+  { value: 'Delivered', label: 'Delivered' },
+  { value: 'Cancelled', label: 'Cancelled' },
 ] as const
 
 export type OrderStatusValue = (typeof ORDER_STATUSES)[number]['value']
 
 /**
- * Payment Statuses
+ * Payment Statuses - values must match backend enum exactly
  */
 export const PAYMENT_STATUSES = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'paid', label: 'Paid' },
-  { value: 'verified', label: 'Verified' },
+  { value: 'Pending', label: 'Pending' },
+  { value: 'Paid', label: 'Paid' },
+  { value: 'Verified', label: 'Verified' },
 ] as const
 
 export type PaymentStatusValue = (typeof PAYMENT_STATUSES)[number]['value']
 
 /**
- * Delivery Statuses
+ * Delivery Statuses - values must match backend enum exactly
  */
 export const DELIVERY_STATUSES = [
-  { value: 'not-started', label: 'Not Started' },
-  { value: 'in-progress', label: 'In Progress' },
-  { value: 'out-for-delivery', label: 'Out for Delivery' },
-  { value: 'delivered', label: 'Delivered' },
+  { value: 'Not Started', label: 'Not Started' },
+  { value: 'In Progress', label: 'In Progress' },
+  { value: 'Out for Delivery', label: 'Out for Delivery' },
+  { value: 'Delivered', label: 'Delivered' },
 ] as const
 
 export type DeliveryStatusValue = (typeof DELIVERY_STATUSES)[number]['value']

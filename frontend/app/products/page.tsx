@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { productsApi } from '@/lib/api'
 import { PAGINATION } from '@/lib/constants'
+import { categoryUrlToBackend } from '@/lib/utils'
 import { ProductGrid } from '@/components/product/ProductGrid'
 import { ProductFilter } from '@/components/product/ProductFilter'
 import { Pagination } from '@/components/common/Pagination'
@@ -41,11 +42,15 @@ export default function ProductsPage() {
   const fetchProducts = useCallback(async () => {
     setIsLoading(true)
     try {
+      // Convert URL category format to backend format
+      // URL uses kebab-case (e.g., "gharara") but backend expects proper case (e.g., "Gharara")
+      const backendCategory = categoryUrlToBackend(filters.category)
+
       const params: ProductListParams = {
         page: currentPage,
         limit: PAGINATION.DEFAULT_LIMIT,
         search: searchParams.get('search') || undefined,
-        category: filters.category,
+        category: backendCategory as ProductListParams['category'],
         min_price: filters.minPrice,
         max_price: filters.maxPrice,
         size: filters.sizes?.[0], // API might support single size

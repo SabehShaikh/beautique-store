@@ -24,7 +24,7 @@ interface OrderConfirmationPageProps {
 
 interface OrderData {
   order_id: string
-  payment_method: 'easypaisa' | 'meezan-bank'
+  payment_method: 'Easypaisa' | 'Meezan Bank'
   items: Array<{
     name: string
     size: string
@@ -57,7 +57,7 @@ export default function OrderConfirmationPage({
     }
   }, [])
 
-  const paymentMethod = orderData?.payment_method || 'easypaisa'
+  const paymentMethod = orderData?.payment_method || 'Easypaisa'
   const paymentInfo = PAYMENT_DETAILS[paymentMethod]
 
   const total = orderData?.items?.reduce(
@@ -120,7 +120,7 @@ export default function OrderConfirmationPage({
           <CardTitle className="flex items-center gap-2">
             Payment Instructions
             <Badge variant="secondary">
-              {paymentMethod === 'easypaisa' ? 'Easypaisa' : 'Meezan Bank'}
+              {paymentMethod === 'Easypaisa' ? 'Easypaisa' : 'Meezan Bank'}
             </Badge>
           </CardTitle>
         </CardHeader>

@@ -2,13 +2,13 @@
  * Order Types for Beautique Store
  */
 
-export type PaymentMethod = 'easypaisa' | 'meezan-bank'
+export type PaymentMethod = 'Easypaisa' | 'Meezan Bank'
 
-export type PaymentStatus = 'pending' | 'paid' | 'verified'
+export type PaymentStatus = 'Pending' | 'Paid' | 'Verified'
 
-export type OrderStatus = 'received' | 'processing' | 'ready' | 'delivered' | 'cancelled'
+export type OrderStatus = 'Received' | 'Processing' | 'Ready' | 'Delivered' | 'Cancelled'
 
-export type DeliveryStatus = 'not-started' | 'in-progress' | 'out-for-delivery' | 'delivered'
+export type DeliveryStatus = 'Not Started' | 'In Progress' | 'Out for Delivery' | 'Delivered'
 
 export interface OrderItem {
   product_id: string

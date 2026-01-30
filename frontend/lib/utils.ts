@@ -118,3 +118,44 @@ export function calculateDiscount(regularPrice: number, salePrice: number): numb
 export function getEffectivePrice(regularPrice: number, salePrice?: number | null): number {
   return salePrice != null ? salePrice : regularPrice
 }
+
+/**
+ * Category mapping between URL format (kebab-case) and backend format (proper case)
+ * URL: "gharara", "lehanga-choli", etc.
+ * Backend: "Gharara", "Lehanga Choli", etc.
+ */
+const CATEGORY_URL_TO_BACKEND: Record<string, string> = {
+  'maxi': 'Maxi',
+  'lehanga-choli': 'Lehanga Choli',
+  'long-shirt': 'Long Shirt',
+  'shalwar-kameez': 'Shalwar Kameez',
+  'gharara': 'Gharara',
+}
+
+const CATEGORY_BACKEND_TO_URL: Record<string, string> = {
+  'Maxi': 'maxi',
+  'Lehanga Choli': 'lehanga-choli',
+  'Long Shirt': 'long-shirt',
+  'Shalwar Kameez': 'shalwar-kameez',
+  'Gharara': 'gharara',
+}
+
+/**
+ * Convert URL category format to backend format
+ * "gharara" -> "Gharara"
+ * "lehanga-choli" -> "Lehanga Choli"
+ */
+export function categoryUrlToBackend(urlCategory: string | undefined | null): string | undefined {
+  if (!urlCategory) return undefined
+  return CATEGORY_URL_TO_BACKEND[urlCategory.toLowerCase()] || urlCategory
+}
+
+/**
+ * Convert backend category format to URL format
+ * "Gharara" -> "gharara"
+ * "Lehanga Choli" -> "lehanga-choli"
+ */
+export function categoryBackendToUrl(backendCategory: string | undefined | null): string | undefined {
+  if (!backendCategory) return undefined
+  return CATEGORY_BACKEND_TO_URL[backendCategory] || backendCategory.toLowerCase().replace(/\s+/g, '-')
+}

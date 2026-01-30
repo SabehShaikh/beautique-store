@@ -21,13 +21,14 @@ export default function CheckoutPage() {
   const { items, getCartTotal, clearCart, initialized } = useCart()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [orderCompleted, setOrderCompleted] = useState(false)
 
-  // Redirect to cart if empty
+  // Redirect to cart if empty (but not if order was just completed)
   useEffect(() => {
-    if (initialized && items.length === 0) {
+    if (initialized && items.length === 0 && !orderCompleted) {
       router.replace('/cart')
     }
-  }, [initialized, items.length, router])
+  }, [initialized, items.length, router, orderCompleted])
 
   if (!initialized) {
     return (
@@ -43,17 +44,11 @@ export default function CheckoutPage() {
     return null // Will redirect
   }
 
-  // Map frontend payment method values to backend enum values
-  const paymentMethodMap: Record<string, string> = {
-    'easypaisa': 'Easypaisa',
-    'meezan-bank': 'Meezan Bank',
-  }
-
   const handleSubmit = async (data: CheckoutFormValues) => {
     setIsSubmitting(true)
 
     try {
-      // Prepare order data with mapped payment method
+      // Prepare order data - values now match backend enum values directly
       const orderData = {
         customer_name: data.customer_name,
         phone: data.phone,
@@ -63,7 +58,7 @@ export default function CheckoutPage() {
         city: data.city,
         country: data.country || undefined,
         notes: data.notes || undefined,
-        payment_method: paymentMethodMap[data.payment_method] || data.payment_method,
+        payment_method: data.payment_method,
         items: items.map((item) => ({
           product_id: item.product_id,
           name: item.name,
@@ -74,7 +69,7 @@ export default function CheckoutPage() {
         })),
       }
 
-      // Create order - cast to any since backend expects different enum values
+      // Create order
       const response = await ordersApi.createOrder(orderData as any)
 
       // Store order data temporarily for confirmation page
@@ -87,6 +82,9 @@ export default function CheckoutPage() {
         STORAGE_KEYS.ORDER_DATA,
         JSON.stringify(orderConfirmationData)
       )
+
+      // Mark order as completed BEFORE clearing cart to prevent redirect to /cart
+      setOrderCompleted(true)
 
       // Clear cart
       clearCart()

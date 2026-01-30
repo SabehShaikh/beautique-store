@@ -166,10 +166,11 @@ class OrderListItem(BaseModel):
     id: UUID
     order_id: str
     customer_name: str
+    phone: str  # Added for admin display
     total_amount: float
     payment_status: PaymentStatus
     order_status: OrderStatus
-    created_at: datetime
+    order_date: date  # Changed from created_at to match frontend
 
     model_config = {"from_attributes": True}
 
@@ -177,8 +178,8 @@ class OrderListItem(BaseModel):
 class OrderListResponse(BaseModel):
     """Schema for paginated order list response."""
 
-    orders: list[OrderListItem]
+    items: list[OrderListItem]  # Changed from "orders" to match frontend
     total: int
     page: int
     limit: int
-    pages: int
+    total_pages: int  # Changed from "pages" to match frontend

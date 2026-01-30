@@ -64,15 +64,15 @@ export default function TrackOrderPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'received':
+      case 'Received':
         return <Package className="h-5 w-5" />
-      case 'processing':
+      case 'Processing':
         return <Clock className="h-5 w-5" />
-      case 'ready':
+      case 'Ready':
         return <CheckCircle className="h-5 w-5" />
-      case 'delivered':
+      case 'Delivered':
         return <CheckCircle className="h-5 w-5" />
-      case 'cancelled':
+      case 'Cancelled':
         return <AlertCircle className="h-5 w-5" />
       default:
         return <Package className="h-5 w-5" />
@@ -81,22 +81,22 @@ export default function TrackOrderPage() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      received: 'bg-blue-100 text-blue-800',
-      processing: 'bg-yellow-100 text-yellow-800',
-      ready: 'bg-purple-100 text-purple-800',
-      delivered: 'bg-green-100 text-green-800',
-      cancelled: 'bg-red-100 text-red-800',
-      pending: 'bg-gray-100 text-gray-800',
-      paid: 'bg-blue-100 text-blue-800',
-      verified: 'bg-green-100 text-green-800',
-      'not-started': 'bg-gray-100 text-gray-800',
-      'in-progress': 'bg-yellow-100 text-yellow-800',
-      'out-for-delivery': 'bg-purple-100 text-purple-800',
+      'Received': 'bg-blue-100 text-blue-800',
+      'Processing': 'bg-yellow-100 text-yellow-800',
+      'Ready': 'bg-purple-100 text-purple-800',
+      'Delivered': 'bg-green-100 text-green-800',
+      'Cancelled': 'bg-red-100 text-red-800',
+      'Pending': 'bg-gray-100 text-gray-800',
+      'Paid': 'bg-blue-100 text-blue-800',
+      'Verified': 'bg-green-100 text-green-800',
+      'Not Started': 'bg-gray-100 text-gray-800',
+      'In Progress': 'bg-yellow-100 text-yellow-800',
+      'Out for Delivery': 'bg-purple-100 text-purple-800',
     }
     return colors[status] || 'bg-gray-100 text-gray-800'
   }
 
-  const orderStatuses = ['received', 'processing', 'ready', 'delivered']
+  const orderStatuses = ['Received', 'Processing', 'Ready', 'Delivered']
   const currentStatusIndex = orderData
     ? orderStatuses.indexOf(orderData.order_status)
     : -1
@@ -176,8 +176,7 @@ export default function TrackOrderPage() {
               <CardTitle className="flex items-center justify-between">
                 <span className="font-mono">{orderData.order_id}</span>
                 <Badge className={getStatusColor(orderData.order_status)}>
-                  {orderData.order_status.charAt(0).toUpperCase() +
-                    orderData.order_status.slice(1)}
+                  {orderData.order_status}
                 </Badge>
               </CardTitle>
               <CardDescription>
@@ -208,7 +207,7 @@ export default function TrackOrderPage() {
                           {getStatusIcon(status)}
                         </div>
                         <span className="text-xs mt-2 text-center">
-                          {status.charAt(0).toUpperCase() + status.slice(1)}
+                          {status}
                         </span>
                       </div>
                     )
@@ -237,17 +236,13 @@ export default function TrackOrderPage() {
                 <div>
                   <p className="text-sm text-muted-foreground">Payment Status</p>
                   <Badge className={getStatusColor(orderData.payment_status)}>
-                    {orderData.payment_status.charAt(0).toUpperCase() +
-                      orderData.payment_status.slice(1)}
+                    {orderData.payment_status}
                   </Badge>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Delivery Status</p>
                   <Badge className={getStatusColor(orderData.delivery_status)}>
-                    {orderData.delivery_status
-                      .split('-')
-                      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                      .join(' ')}
+                    {orderData.delivery_status}
                   </Badge>
                 </div>
                 {orderData.estimated_delivery && (
