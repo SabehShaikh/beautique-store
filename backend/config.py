@@ -39,8 +39,8 @@ class Settings(BaseSettings):
     # Environment
     environment: Literal["development", "production"] = "development"
 
-    # Admin seed password (for initial setup)
-    admin_password: str = "changeme123"
+    # Admin seed password (for initial setup - MUST be set via ADMIN_PASSWORD env var)
+    admin_password: str
 
     @property
     def cors_origins(self) -> list[str]:

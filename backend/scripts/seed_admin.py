@@ -21,7 +21,7 @@ from services.auth import hash_password
 
 
 async def seed_admin() -> None:
-    """Create the initial admin user if not exists."""
+    """Create or update the admin user."""
     async with AsyncSessionLocal() as session:
         # Check if admin already exists
         result = await session.execute(
@@ -30,7 +30,13 @@ async def seed_admin() -> None:
         existing_admin = result.scalar_one_or_none()
 
         if existing_admin:
-            print("Admin user already exists. Skipping seed.")
+            # Update existing admin password
+            existing_admin.password_hash = hash_password(settings.admin_password)
+            await session.commit()
+            print("Admin user password updated successfully!")
+            print(f"  Username: admin")
+            print(f"  Email: {existing_admin.email}")
+            print(f"  Password: (from ADMIN_PASSWORD environment variable)")
             return
 
         # Create admin user
@@ -45,7 +51,7 @@ async def seed_admin() -> None:
         session.add(admin)
         await session.commit()
 
-        print(f"Admin user created successfully!")
+        print("Admin user created successfully!")
         print(f"  Username: admin")
         print(f"  Email: admin@beautique.com")
         print(f"  Password: (from ADMIN_PASSWORD environment variable)")
