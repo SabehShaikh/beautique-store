@@ -89,7 +89,6 @@ export default function AdminEditProductPage({ params }: EditProductPageProps) {
     }
 
     const result = await response.json()
-    console.log('Cloudinary upload success:', result.secure_url)
     return result.secure_url
   }
 
@@ -102,18 +101,13 @@ export default function AdminEditProductPage({ params }: EditProductPageProps) {
       const newImageUrls: string[] = []
 
       if (images && images.length > 0) {
-        console.log(`Starting upload of ${images.length} new images to Cloudinary...`)
-
         for (let i = 0; i < images.length; i++) {
           setUploadStatus(`Uploading image ${i + 1} of ${images.length}...`)
-          console.log(`Uploading image ${i + 1}/${images.length}: ${images[i].name}`)
 
           try {
             const url = await uploadImageToCloudinary(images[i])
             newImageUrls.push(url)
-            console.log(`Image ${i + 1} uploaded: ${url}`)
           } catch (uploadError: any) {
-            console.error(`Failed to upload image ${i + 1}:`, uploadError)
             toast({
               title: 'Image upload failed',
               description: `Failed to upload image ${i + 1}: ${uploadError.message}`,
@@ -124,8 +118,6 @@ export default function AdminEditProductPage({ params }: EditProductPageProps) {
             return
           }
         }
-
-        console.log('All new images uploaded successfully:', newImageUrls)
       }
 
       setUploadStatus('Updating product...')
@@ -151,10 +143,7 @@ export default function AdminEditProductPage({ params }: EditProductPageProps) {
         images: newImageUrls.length > 0 ? allImages : undefined, // Only update images if new ones added
       }
 
-      console.log('Updating product with payload:', JSON.stringify(productPayload, null, 2))
-
       await adminApi.products.update(id, productPayload)
-      console.log('Product updated successfully')
 
       toast({
         title: 'Product updated',

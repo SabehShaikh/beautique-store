@@ -49,7 +49,6 @@ export default function AdminNewProductPage() {
     }
 
     const result = await response.json()
-    console.log('Cloudinary upload success:', result.secure_url)
     return result.secure_url
   }
 
@@ -62,18 +61,13 @@ export default function AdminNewProductPage() {
       const imageUrls: string[] = []
 
       if (images && images.length > 0) {
-        console.log(`Starting upload of ${images.length} images to Cloudinary...`)
-
         for (let i = 0; i < images.length; i++) {
           setUploadStatus(`Uploading image ${i + 1} of ${images.length}...`)
-          console.log(`Uploading image ${i + 1}/${images.length}: ${images[i].name}`)
 
           try {
             const url = await uploadImageToCloudinary(images[i])
             imageUrls.push(url)
-            console.log(`Image ${i + 1} uploaded: ${url}`)
           } catch (uploadError: any) {
-            console.error(`Failed to upload image ${i + 1}:`, uploadError)
             toast({
               title: 'Image upload failed',
               description: `Failed to upload image ${i + 1}: ${uploadError.message}`,
@@ -84,8 +78,6 @@ export default function AdminNewProductPage() {
             return
           }
         }
-
-        console.log('All images uploaded successfully:', imageUrls)
       }
 
       setUploadStatus('Creating product...')
@@ -105,10 +97,7 @@ export default function AdminNewProductPage() {
         images: imageUrls, // Include Cloudinary URLs
       }
 
-      console.log('Creating product with payload:', JSON.stringify(productPayload, null, 2))
-
-      const product = await adminApi.products.create(productPayload)
-      console.log('Product created successfully:', product)
+      await adminApi.products.create(productPayload)
 
       toast({
         title: 'Product created',
