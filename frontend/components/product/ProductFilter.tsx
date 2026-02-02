@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 import { CATEGORIES, SIZES, COLORS } from '@/lib/constants'
 import { Button } from '@/components/ui/button'
@@ -37,6 +37,16 @@ export function ProductFilter({
 }: ProductFilterProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  // Local state for price inputs - allows smooth typing
+  const [localMinPrice, setLocalMinPrice] = useState<string>('')
+  const [localMaxPrice, setLocalMaxPrice] = useState<string>('')
+
+  // Sync local price state with filters prop
+  useEffect(() => {
+    setLocalMinPrice(filters.minPrice?.toString() || '')
+    setLocalMaxPrice(filters.maxPrice?.toString() || '')
+  }, [filters.minPrice, filters.maxPrice])
+
   const activeFilterCount = getActiveFilterCount(filters)
 
   const handleCategoryChange = (category: ProductCategory, checked: boolean) => {
@@ -46,12 +56,32 @@ export function ProductFilter({
     })
   }
 
-  const handlePriceChange = (field: 'minPrice' | 'maxPrice', value: string) => {
-    const numValue = value ? parseInt(value, 10) : undefined
-    onFilterChange({
-      ...filters,
-      [field]: numValue,
-    })
+  // Debounced price filter - only triggers after user stops typing
+  const debouncedPriceChange = useCallback(
+    debounce((minPrice: string, maxPrice: string) => {
+      const minVal = minPrice ? parseInt(minPrice, 10) : undefined
+      const maxVal = maxPrice ? parseInt(maxPrice, 10) : undefined
+
+      // Only update if values actually changed
+      if (minVal !== filters.minPrice || maxVal !== filters.maxPrice) {
+        onFilterChange({
+          ...filters,
+          minPrice: minVal,
+          maxPrice: maxVal,
+        })
+      }
+    }, 300),
+    [filters, onFilterChange]
+  )
+
+  const handleMinPriceChange = (value: string) => {
+    setLocalMinPrice(value)
+    debouncedPriceChange(value, localMaxPrice)
+  }
+
+  const handleMaxPriceChange = (value: string) => {
+    setLocalMaxPrice(value)
+    debouncedPriceChange(localMinPrice, value)
   }
 
   const handleSizeChange = (size: ProductSize, checked: boolean) => {
@@ -77,6 +107,8 @@ export function ProductFilter({
   }
 
   const handleClearAll = () => {
+    setLocalMinPrice('')
+    setLocalMaxPrice('')
     onFilterChange({})
   }
 
@@ -143,8 +175,8 @@ export function ProductFilter({
                   id="minPrice"
                   type="number"
                   placeholder="0"
-                  value={filters.minPrice || ''}
-                  onChange={(e) => handlePriceChange('minPrice', e.target.value)}
+                  value={localMinPrice}
+                  onChange={(e) => handleMinPriceChange(e.target.value)}
                   min={0}
                 />
               </div>
@@ -157,8 +189,8 @@ export function ProductFilter({
                   id="maxPrice"
                   type="number"
                   placeholder="Any"
-                  value={filters.maxPrice || ''}
-                  onChange={(e) => handlePriceChange('maxPrice', e.target.value)}
+                  value={localMaxPrice}
+                  onChange={(e) => handleMaxPriceChange(e.target.value)}
                   min={0}
                 />
               </div>
@@ -265,4 +297,21 @@ function getActiveFilterCount(filters: ProductFilterState): number {
   if (filters.sizes?.length) count += filters.sizes.length
   if (filters.colors?.length) count += filters.colors.length
   return count
+}
+
+// Simple debounce utility
+function debounce<T extends (...args: Parameters<T>) => void>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeoutId: NodeJS.Timeout | null = null
+
+  return (...args: Parameters<T>) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+    timeoutId = setTimeout(() => {
+      func(...args)
+    }, wait)
+  }
 }
